@@ -1,0 +1,7 @@
+---
+- name: Pull from Registry and Start 
+  hosts: 
+    - nodes
+  roles:
+    - docker-login
+    - docker-deploy

@@ -1,0 +1,4 @@
+---
+docker_repo_url: "https://download.docker.com/linux/centos/docker-ce.repo"
+docker_repo_gpg_key_url: "https://download.docker.com/linux/centos/gpg"
+docker_repofile_path: "/etc/yum.repos.d/docker-ce.repo"

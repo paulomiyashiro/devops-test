@@ -1,0 +1,6 @@
+---
+- name: Build and Push to Registry
+  hosts: controller
+  roles:
+    - docker-login
+    - docker-build

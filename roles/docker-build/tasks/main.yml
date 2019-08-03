@@ -1,0 +1,9 @@
+---
+- name: Build Image
+  docker_image:
+    build:
+      path: .
+    state: present
+    name: paulomiyashiro/devops-test
+    tag: "{{ tag }}"
+    push: yes

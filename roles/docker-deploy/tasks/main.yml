@@ -1,0 +1,22 @@
+---
+- name: Start Docker container 
+  docker_container:
+    name: devops-test
+    image: "paulomiyashiro/devops-test:{{ tag }}"
+    restart_policy: always
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+
+- name: Test HTTP Server
+  uri:
+    url: "http://localhost:8080" 
+    return_content: yes
+    failed_when: "'Hey! You win' not in webpage.content"
+
+- name: Test HTTPS Server
+  uri:
+    url: "https://localhost:8443" 
+    return_content: yes
+    failed_when: "'Hey! You win' not in webpage.content"
+    validate_certs: no

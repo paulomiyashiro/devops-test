@@ -1,0 +1,8 @@
+---
+- name: Provision Vagrant Image
+  hosts: all
+  gather_facts: yes
+  become: yes
+  roles:
+    - epel-repository
+    - docker-install

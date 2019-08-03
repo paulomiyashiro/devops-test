@@ -1,0 +1,54 @@
+---
+- name: Install yum utils
+  yum:
+    name: yum-utils
+    state: latest
+
+- name: Install device-mapper-persistent-data
+  yum:
+    name: device-mapper-persistent-data
+    state: latest
+
+- name: Install lvm2
+  yum:
+    name: lvm2
+    state: latest
+
+- name: Add Docker GPG key
+  rpm_key:
+    key: "{{ docker_repo_gpg_key_url }}"
+    state: present
+
+- name: Add Docker repository
+  get_url:
+    url: "{{ docker_repo_url }}"
+    dest: "{{ docker_repofile_path }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install Docker
+  package:
+    name: docker-ce
+    state: latest
+
+- name: Install pip
+  yum:
+    name: python-pip
+    state: latest
+
+- name: Install Docker SDK for Python
+  pip:
+    name: docker
+
+- name: Add user vagrant to docker group
+  user:
+    name: vagrant
+    groups: docker
+    append: yes
+
+- name: Start Docker Service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
