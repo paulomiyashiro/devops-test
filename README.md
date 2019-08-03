@@ -21,9 +21,16 @@ Deverão ser descompactados na raiz do projeto os arquivos descritos abaixo:
 ## Quick Start
 Para disponibilizar a aplicação após a cópia dos arquivos adicionais digite:
 ```
+#Provisionar instâncias
 vagrant up
+#Construir e publicar e testar aplicações
 vagrant up --provision-with build,deploy
 ```
+Acessar no navegador a aplicação nos endereços:
+
+[http://172.17.177.21:8080/](http://172.17.177.21:8080/)
+
+[https://172.17.177.21:8443/](https://172.17.177.21:8443/)
 
 ## Ciclo de Vida da Aplicação
 É possível através dos playbooks criados gerenciar o ciclo de vida da aplicação.
