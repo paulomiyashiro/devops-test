@@ -12,22 +12,36 @@ A preparação do ambiente deverá ser realizada em dois passos que consistem em
 As chaves, senhas e certificados não estão adicionadas neste pacote e deverão ser descompactadas no diretório raiz do projeto.
 
 Deverão ser descompactados na raiz do projeto os arquivos descritos abaixo: 
-* id_rsa
-* id_rsa.pub
-* server.crt
-* server.key
-* vaultpass
-### Provisionamento do ambiente
+* id_rsa - chave privada que será utilizada para comunicação ssl entre as instâncias do Vagrant
+* id_rsa.pub - chave publica que será utilizada para comunicação ssl entre as instâncias do Vagrant
+* server.crt - certificado que será publicado na aplicação para servir requisições https
+* server.key - chave utilizada na aplicação para servir requisições https
+* vaultpass - senha para desencriptografar as credencias definidas no ansible-vault
+
+## Quick Start
+Para disponibilizar a aplicação após a cópia dos arquivos adicionais digite:
+```
+vagrant up
+vagrant up --provision-with build,deploy
+```
+
+## Ciclo de Vida da Aplicação
+É possível através dos playbooks criados gerenciar o ciclo de vida da aplicação.
+
+### Provision
 Após a clonagem do repositório será necessário provisionar o ambiente no vagrant.
+
+Serão criadas duas instâncias no Vagrant:
+* Controller
+Esta instância contém o ansible e é reponsável por executar os playbooks.
+* Node1
+Esta instância é contém a aplicação publicada em Docker.
 
 Na raiz do projeto digite:
 ```
 vagrant up
 ```
 Após essa execução o ambiente estará disponível para publicação do serviço.
-
-## Ciclo de Vida da Aplicação
-É possível através dos playbooks criados gerenciar o ciclo de vida da aplicação.
 ### Build
 No processo de build o script ansible compila a aplicação, gera imagem docker, realiza o login no Dockerhub e publica a imagem.
 
@@ -64,3 +78,28 @@ end
 ```
 vagrant reload --provision-with build,deploy
 ```
+## Estrutura do projeto
+```
+|-group_vars
+|--all
+|---all.yml   //arquivo de configurações que associa as credenciais definidas no arquivo vault
+|---vault     //arquivo criptografado das credenciais do docker hub
+|-roles
+|--docker-build     //geração de tags e imagens e publicação no docker hub
+|--docker-deploy    //baixa imagem do dockerhub e cria instância docker
+|--docker-install   //instala o docker nas maquinas do Vargrant
+|--docker-build     //responsável pela compilação, geração de tags e imagens e publicação no docker hub
+|--docker-login     //login no docker hub
+|--epel-repository  //adiciona repositórios necessários para instalação do docker
+|-src //código fonte da aplicação
+|-ansible.cfg //configurações do ansible
+|-provision.yml //playbook responsável pelo provisionamento das instâncias
+|-build.yml //playbook responsável pela geração da imagem docker e armazenamento no dockerhub 
+|-deploy.yml //playbook responsável pela criação da instância no docker e realização de testes
+|-inventory //arquivo com definição dos hosts gerenciado pelo ansible
+|-Vagrantfile //arquivo com descrição das configurações do Vagrant
+|-Dockerfile //arquivo de configurações do Docker, compila a aplicação e disponibiliza os serviços
+```
+# Autor
+Paulo Miyashiro
+
