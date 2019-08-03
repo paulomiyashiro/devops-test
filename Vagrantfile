@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
 
 			ansible.vault_password_file = "vaultpass"
 			ansible.playbook 			= "provision.yml"		
-			ansible.verbose        		= true
+			ansible.verbose        		= false
 			ansible.install        		= true
 			ansible.limit          		= "all"
 			ansible.inventory_path 		= "inventory"
@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
 
 			ansible.vault_password_file = "vaultpass"
 			ansible.playbook 			= "build.yml"		
-			ansible.verbose        		= true
+			ansible.verbose        		= false
 			ansible.install        		= true
 			ansible.limit          		= "controller"
 			ansible.inventory_path 		= "inventory"
