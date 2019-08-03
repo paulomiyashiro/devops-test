@@ -4,10 +4,11 @@ $nodescript = <<-SCRIPT
 	cat /vagrant/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
 SCRIPT
 
-$controllerscript = <<-SCRIPT
+$controllerscript = <<-SCRIPT	
+	sudo chmod 400  /vagrant/id_rsa
+	sudo chown vagrant:vagrant /vagrant/id_rsa
 	sudo cp -r /vagrant/id_rsa /home/vagrant/.ssh/id_rsa
-	sudo chmod 400  /home/vagrant/.ssh/id_rsa
-	sudo chown vagrant:vagrant /home/vagrant/.ssh/id_rsa
+
 SCRIPT
 
 
